@@ -289,6 +289,7 @@
 /define:CSHARP_7_OR_LATER
 /define:CSHARP_7_3_OR_NEWER
 Assets\Physics.cs
+Assets\Rullning.cs
 Assets\Sliding.cs
 Assets\Turning.cs
 Assets\studsYta.cs

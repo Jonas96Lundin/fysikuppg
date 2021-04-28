@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/KastMedLitenBoll.unity
+- path: Assets/Scenes/RullandeBoll.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
