@@ -13,21 +13,13 @@ public class Rullning : MonoBehaviour
     [SerializeField]
     float initialAngle = 100f;
     [SerializeField]
-    float initialVelocity = 100f;
-
-    float initialSpeedX, initialSpeedY;
+    float initialVelocity = 10f;
 
     [SerializeField]
     float gravity = 9.82f;
-
-    float friktionsKoeffsient = 1f;
     float a, aF, aG;
-    float angle;
 
-    //
-    float speed;
-    float r, angleSpeed;
-
+    float angle, r, angleSpeed;
 
     [SerializeField]
     InputField inputPosX;
@@ -43,16 +35,10 @@ public class Rullning : MonoBehaviour
     [SerializeField]
     Text currentPosY;
 
-    Vector3 u, w, direction;
+    Vector3 u, w;
 
-    Vector3 velocity;
-    float studs, timeSinceLastBounce = float.MaxValue;
-
-    public bool onGround;
-    private float accelrationX, accelrationY, currentSpeed;
-
-
-    private RaycastHit hit;
+    private Vector3 velocity;
+    private float currentSpeed;
 
     private void Start()
     {
@@ -61,33 +47,23 @@ public class Rullning : MonoBehaviour
         inputVelocity.text = initialVelocity.ToString();
         inputAngle.text = initialAngle.ToString();
 
-        transform.position = new Vector3(initialPositionX, initialPositionY, 0);
-
-		velocity.x = Mathf.Cos(initialAngle * Mathf.PI / 180) * initialVelocity;
-		velocity.y = Mathf.Sin(initialAngle * Mathf.PI / 180) * initialVelocity;
-
-		currentSpeed = velocity.x / Mathf.Cos(initialAngle * Mathf.PI / 180);
-
-		//
-		speed = initialVelocity;
-		//angle = initialAngle;
-		angle = Vector3.Angle(Vector3.right, Vector3.right);
         r = gameObject.GetComponent<SphereCollider>().radius / 2;
 
-		onGround = false;
+        transform.position = new Vector3(initialPositionX, initialPositionY, 0);
+		velocity.x = Mathf.Cos(initialAngle * Mathf.PI / 180) * initialVelocity;
+		velocity.y = Mathf.Sin(initialAngle * Mathf.PI / 180) * initialVelocity;
+        //currentSpeed = initialVelocity;
+        //angle = initialAngle;
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            velocity = Vector3.zero;
-            gravity = 9.82f;
-            timeSinceLastBounce = float.MaxValue;
             transform.position = new Vector3(float.Parse(inputPosX.text), float.Parse(inputPosY.text), 0);
 			velocity.x = Mathf.Cos(float.Parse(inputAngle.text) * Mathf.PI / 180) * float.Parse(inputVelocity.text);
 			velocity.y = Mathf.Sin(float.Parse(inputAngle.text) * Mathf.PI / 180) * float.Parse(inputVelocity.text);
-			onGround = false;
+            //currentSpeed = float.Parse(inputVelocity.text);
         }
 
         //Debug.Log(w);
@@ -132,10 +108,8 @@ public class Rullning : MonoBehaviour
 		transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z + angleSpeed));
     }
 
-
     private void Move()
     {
-		Debug.Log("Direction: " + direction);
         transform.position += velocity * Time.fixedDeltaTime;
     }
 }
