@@ -5,111 +5,169 @@ using UnityEngine.UI;
 
 public class Rullning : MonoBehaviour
 {
-    [SerializeField]
-    float initialPositionX = 0f;
-    [SerializeField]
-    float initialPositionY = 0f;
+	[SerializeField]
+	float initialPositionX = 0f;
+	[SerializeField]
+	float initialPositionY = 0f;
 
-    [SerializeField]
-    float initialAngle = 100f;
-    [SerializeField]
-    float initialVelocity = 10f;
+	[SerializeField]
+	float initialAngle = 100f;
+	[SerializeField]
+	float initialVelocity = 10f;
 
-    [SerializeField]
-    float gravity = 9.82f;
-    float a, aF, aG;
+	[SerializeField]
+	float gravity = 9.82f;
+	float a, aF, aG;
 
-    float angle, r, angleSpeed;
+	float angle, r, angleSpeed;
 
-    [SerializeField]
-    InputField inputPosX;
-    [SerializeField]
-    InputField inputPosY;
-    [SerializeField]
-    InputField inputVelocity;
-    [SerializeField]
-    InputField inputAngle;
+	[SerializeField]
+	InputField inputPosX;
+	[SerializeField]
+	InputField inputPosY;
+	[SerializeField]
+	InputField inputVelocity;
+	[SerializeField]
+	InputField inputAngle;
 
-    [SerializeField]
-    Text currentPosX;
-    [SerializeField]
-    Text currentPosY;
+	[SerializeField]
+	Text currentPosX;
+	[SerializeField]
+	Text currentPosY;
 
-    Vector3 u, w;
+	[SerializeField]
+	Text currentAngleSpeed;
+	[SerializeField]
+	Text currentSpeed;
 
-    private Vector3 velocity;
-    private float currentSpeed;
+	Vector3 u, w;
 
-    private void Start()
-    {
-        inputPosX.text = initialPositionX.ToString();
-        inputPosY.text = initialPositionY.ToString();
-        inputVelocity.text = initialVelocity.ToString();
-        inputAngle.text = initialAngle.ToString();
+	private Vector3 velocity;
+	private float speed = 0;
+	//private float hight;
 
-        r = gameObject.GetComponent<SphereCollider>().radius / 2;
+	private void Start()
+	{
+		inputPosX.text = initialPositionX.ToString();
+		inputPosY.text = initialPositionY.ToString();
+		inputVelocity.text = initialVelocity.ToString();
+		inputAngle.text = initialAngle.ToString();
 
-        transform.position = new Vector3(initialPositionX, initialPositionY, 0);
+		r = gameObject.GetComponent<SphereCollider>().radius;
+
+		transform.position = new Vector3(initialPositionX, initialPositionY, 0);
 		velocity.x = Mathf.Cos(initialAngle * Mathf.PI / 180) * initialVelocity;
 		velocity.y = Mathf.Sin(initialAngle * Mathf.PI / 180) * initialVelocity;
-        //currentSpeed = initialVelocity;
-        //angle = initialAngle;
-    }
+		//currentSpeed = initialVelocity;
+		//angle = initialAngle;
+		speed = initialVelocity;
+		//hight = 0;
+		angleSpeed = initialVelocity / r;
+	}
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            transform.position = new Vector3(float.Parse(inputPosX.text), float.Parse(inputPosY.text), 0);
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			transform.position = new Vector3(float.Parse(inputPosX.text), float.Parse(inputPosY.text), 0);
 			velocity.x = Mathf.Cos(float.Parse(inputAngle.text) * Mathf.PI / 180) * float.Parse(inputVelocity.text);
 			velocity.y = Mathf.Sin(float.Parse(inputAngle.text) * Mathf.PI / 180) * float.Parse(inputVelocity.text);
-            //currentSpeed = float.Parse(inputVelocity.text);
-        }
+			//currentSpeed = float.Parse(inputVelocity.text);
+			speed = float.Parse(inputVelocity.text);
+			//hight = 0;
+			angleSpeed = initialVelocity / r;
+		}
 
-        //Debug.Log(w);
-        //Debug.Log(u);
-        //Debug.Log("Angle: " + angle);
-        //Debug.Log("Velocity: " + velocity);
-
-        currentPosX.text = "Current x position: " + Mathf.Round(transform.position.x * 100f) / 100f;
-        currentPosY.text = "Current y position: " + Mathf.Round(transform.position.y * 100f) / 100f;
-
-
-		if(transform.position.x > 55)
+		if (transform.position.x > 55)
 		{
 			angle = 15;
+
 		}
-		else if(transform.position.x > 32)
+		else if (transform.position.x > 32)
 		{
 			angle = 0;
+
 		}
-		else if(transform.position.x > 9)
+		else if (transform.position.x > 9)
 		{
 			angle = -20;
+
 		}
 		else
 		{
 			angle = 0;
+
 		}
 
-		aG = -gravity * Mathf.Sin(angle * Mathf.PI / 180f);
-		velocity.x += Mathf.Cos(angle * Mathf.PI / 180) * aG * Time.deltaTime;
-		currentSpeed = velocity.x / Mathf.Cos(angle * Mathf.PI / 180);
-		velocity.y = Mathf.Sin(angle * Mathf.PI / 180) * currentSpeed;
+
+		//float Fg = mass * gravity;
+		//float Fn = (float)(Fg * Mathf.Cos(angle));
+		//float Fgx = (float)(Fg * Mathf.Sin(angle));
+		//float I = 2 / 3 * mass * Mathf.Pow(r, 2);
+		//float accelration = (Fgx / I);
+		float accelration = -gravity * Mathf.Sin(angle * Mathf.PI / 180) / /*(5f / 3f)*/(2f / 3f * Mathf.Pow(r, 2));
+
+		speed += accelration * Time.deltaTime;
+		angleSpeed += accelration / r * Time.deltaTime;
+
+		velocity.x = Mathf.Cos(angle * Mathf.PI / 180) * speed;
+		velocity.y = Mathf.Sin(angle * Mathf.PI / 180) * speed;
 
 
-		angleSpeed = Mathf.Sqrt(3 / 2 * Mathf.Pow(currentSpeed, 2) / Mathf.Pow(r, 2));
-        Debug.Log(currentSpeed);
-    }
 
-    private void FixedUpdate()
-    {
+
+
+
+
+
+
+
+
+
+		//      hight = transform.position.y;
+
+		//currentSpeed = Mathf.Sqrt(Mathf.Abs(1.2f * gravity * hight));
+
+		//velocity.x
+
+
+
+		//aG = -gravity * Mathf.Sin(angle * Mathf.PI / 180f);
+
+		//velocity.x += Mathf.Cos(angle * Mathf.PI / 180) * aG * Time.deltaTime;
+
+		//currentSpeed = velocity.x / Mathf.Cos(angle * Mathf.PI / 180);
+
+		//velocity.y = Mathf.Sin(angle * Mathf.PI / 180) * currentSpeed;
+
+
+
+		//angleSpeed = Mathf.Sqrt(3 / 2 * Mathf.Pow(currentSpeed, 2) / Mathf.Pow(r, 2));
+
+
+
+		//currentSpeed = angleSpeed * r;
+
+		//if (currentSpeed > 0)
+		//{
+		//	angleSpeed = -angleSpeed;
+		//}
+		//Debug.Log(currentSpeed);
+	}
+
+	private void FixedUpdate()
+	{
 		Move();
-		transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z + angleSpeed));
-    }
+		transform.Rotate(new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z - angleSpeed));
 
-    private void Move()
-    {
-        transform.position += velocity * Time.fixedDeltaTime;
-    }
+		currentPosX.text = "Current x position: " + Mathf.Round(transform.position.x * 100f) / 100f;
+		currentPosY.text = "Current y position: " + Mathf.Round(transform.position.y * 100f) / 100f;
+		currentAngleSpeed.text = "Current Angle Speed: " + Mathf.Round(angleSpeed * 100f) / 100f;
+		currentSpeed.text = "Current Speed: " + Mathf.Round(speed * 100f) / 100f;
+	}
+
+	private void Move()
+	{
+		transform.position += velocity * Time.fixedDeltaTime;
+	}
 }
