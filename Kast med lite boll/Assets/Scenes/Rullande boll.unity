@@ -1018,6 +1018,8 @@ MonoBehaviour:
   inputAngle: {fileID: 1911636158}
   currentPosX: {fileID: 1616792662}
   currentPosY: {fileID: 327376829}
+  currentAngleSpeed: {fileID: 1690915780}
+  currentSpeed: {fileID: 2049335277}
 --- !u!1 &587303646
 GameObject:
   m_ObjectHideFlags: 0
@@ -2167,7 +2169,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 687, y: -50}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1690915780
 MonoBehaviour:
@@ -3090,7 +3092,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 687, y: -25}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049335277
 MonoBehaviour:
