@@ -79,80 +79,30 @@ public class Rullning : MonoBehaviour
 		}
 
 		if (transform.position.x > 55)
-		{
 			angle = 15;
-
-		}
 		else if (transform.position.x > 32)
-		{
 			angle = 0;
-
-		}
 		else if (transform.position.x > 9)
-		{
 			angle = -20;
-
-		}
 		else
-		{
 			angle = 0;
 
-		}
 
-
-		//float Fg = mass * gravity;
+		//float Fg = mass * -gravity;
 		//float Fn = (float)(Fg * Mathf.Cos(angle));
 		//float Fgx = (float)(Fg * Mathf.Sin(angle));
 		//float I = 2 / 3 * mass * Mathf.Pow(r, 2);
 		//float accelration = (Fgx / I);
+
+		//Fgx = mass * -gravity * Mathf.Sin(angle);
+		//accelration = mass * -gravity * Matf.Sin(angle) / (2 / 3 * mass * Matf.Pow(r, 2));
+
 		float accelration = -gravity * Mathf.Sin(angle * Mathf.PI / 180) / /*(5f / 3f)*/(2f / 3f * Mathf.Pow(r, 2));
 
 		speed += accelration * Time.deltaTime;
 		angleSpeed += accelration / r * Time.deltaTime;
-
 		velocity.x = Mathf.Cos(angle * Mathf.PI / 180) * speed;
 		velocity.y = Mathf.Sin(angle * Mathf.PI / 180) * speed;
-
-
-
-
-
-
-
-
-
-
-
-
-		//      hight = transform.position.y;
-
-		//currentSpeed = Mathf.Sqrt(Mathf.Abs(1.2f * gravity * hight));
-
-		//velocity.x
-
-
-
-		//aG = -gravity * Mathf.Sin(angle * Mathf.PI / 180f);
-
-		//velocity.x += Mathf.Cos(angle * Mathf.PI / 180) * aG * Time.deltaTime;
-
-		//currentSpeed = velocity.x / Mathf.Cos(angle * Mathf.PI / 180);
-
-		//velocity.y = Mathf.Sin(angle * Mathf.PI / 180) * currentSpeed;
-
-
-
-		//angleSpeed = Mathf.Sqrt(3 / 2 * Mathf.Pow(currentSpeed, 2) / Mathf.Pow(r, 2));
-
-
-
-		//currentSpeed = angleSpeed * r;
-
-		//if (currentSpeed > 0)
-		//{
-		//	angleSpeed = -angleSpeed;
-		//}
-		//Debug.Log(currentSpeed);
 	}
 
 	private void FixedUpdate()
